@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Identpeg;
+use App\Models\Jakhir;
+use App\Models\Pakhir;
+use App\Models\GolRuang;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 class DataController extends Controller
@@ -15,7 +19,32 @@ class DataController extends Controller
     public function index()
     {
         //
-        $data = Identpeg::all();
+        $data = Identpeg::where(DB::raw('LENGTH(NIP)'), '=', '18')->get();
+        foreach ($data as $datas) {
+            $jakhir = Jakhir::where('NIP', $datas['NIP'])->first();
+            if ($jakhir === null) {
+                $datas['KESELON'] = null;
+                $datas['NJAB'] = null;
+            } else {
+                $datas['KESELON'] = $jakhir['KESELON'];
+                $datas['NJAB'] = $jakhir['NJAB'];
+            }
+
+            $pakhir = Pakhir::where('NIP', $datas['NIP'])->first();
+            if ($pakhir === null) {
+                $datas['NGOLRU'] = null;
+                $datas['PANGKAT'] = null;
+            } else {
+                $golruang = GolRuang::where('KGOLRU', $pakhir['KGOLRU'])->first();
+                if ($golruang === null) {
+                    $datas['NGOLRU'] = null;
+                    $datas['PANGKAT'] = null;
+                } else {
+                    $datas['NGOLRU'] = $golruang['NGOLRU'];
+                    $datas['PANGKAT'] = $golruang['PANGKAT'];
+                }
+            }
+        }
         return response()->json([
             'data' => $data
         ]);

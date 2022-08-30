@@ -20,28 +20,28 @@ class DataController extends Controller
     {
         //
         $data = Identpeg::where(DB::raw('LENGTH(NIP)'), '=', '18')->get();
-        foreach ($data as $datas) {
-            $jakhir = Jakhir::where('NIP', $datas['NIP'])->first();
+        foreach ($data as $data) {
+            $jakhir = Jakhir::where('NIP', $data['NIP'])->first();
             if ($jakhir === null) {
-                $datas['KESELON'] = null;
-                $datas['NJAB'] = null;
+                $data['KESELON'] = null;
+                $data['NJAB'] = null;
             } else {
-                $datas['KESELON'] = $jakhir['KESELON'];
-                $datas['NJAB'] = $jakhir['NJAB'];
+                $data['KESELON'] = $jakhir['KESELON'];
+                $data['NJAB'] = $jakhir['NJAB'];
             }
 
-            $pakhir = Pakhir::where('NIP', $datas['NIP'])->first();
+            $pakhir = Pakhir::where('NIP', $data['NIP'])->first();
             if ($pakhir === null) {
-                $datas['NGOLRU'] = null;
-                $datas['PANGKAT'] = null;
+                $data['NGOLRU'] = null;
+                $data['PANGKAT'] = null;
             } else {
                 $golruang = GolRuang::where('KGOLRU', $pakhir['KGOLRU'])->first();
                 if ($golruang === null) {
-                    $datas['NGOLRU'] = null;
-                    $datas['PANGKAT'] = null;
+                    $data['NGOLRU'] = null;
+                    $data['PANGKAT'] = null;
                 } else {
-                    $datas['NGOLRU'] = $golruang['NGOLRU'];
-                    $datas['PANGKAT'] = $golruang['PANGKAT'];
+                    $data['NGOLRU'] = $golruang['NGOLRU'];
+                    $data['PANGKAT'] = $golruang['PANGKAT'];
                 }
             }
         }
@@ -75,9 +75,34 @@ class DataController extends Controller
      * @param  \App\Models\Data  $data
      * @return \Illuminate\Http\Response
      */
-    public function show(Data $data)
+    public function show($id)
     {
         //
+        $data = Identpeg::where('NIP', $id)->first();
+        $jakhir = Jakhir::where('NIP', $data['NIP'])->first();
+        if ($jakhir === null) {
+            $data['KESELON'] = null;
+            $data['NJAB'] = null;
+        } else {
+            $data['KESELON'] = $jakhir['KESELON'];
+            $data['NJAB'] = $jakhir['NJAB'];
+        }
+
+        $pakhir = Pakhir::where('NIP', $data['NIP'])->first();
+        if ($pakhir === null) {
+            $data['NGOLRU'] = null;
+            $data['PANGKAT'] = null;
+        } else {
+            $golruang = GolRuang::where('KGOLRU', $pakhir['KGOLRU'])->first();
+            if ($golruang === null) {
+                $data['NGOLRU'] = null;
+                $data['PANGKAT'] = null;
+            } else {
+                $data['NGOLRU'] = $golruang['NGOLRU'];
+                $data['PANGKAT'] = $golruang['PANGKAT'];
+            }
+        }
+        return response()->json($data);
     }
 
     /**

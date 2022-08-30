@@ -79,29 +79,34 @@ class DataController extends Controller
     {
         //
         $data = Identpeg::where('NIP', $id)->first();
-        $jakhir = Jakhir::where('NIP', $data['NIP'])->first();
-        if ($jakhir === null) {
-            $data['KESELON'] = null;
-            $data['NJAB'] = null;
+        if ($data === null) {
+            return response()->json('data tidak ada');
         } else {
-            $data['KESELON'] = $jakhir['KESELON'];
-            $data['NJAB'] = $jakhir['NJAB'];
-        }
+            $jakhir = Jakhir::where('NIP', $data['NIP'])->first();
+            if ($jakhir === null) {
+                $data['KESELON'] = null;
+                $data['NJAB'] = null;
+            } else {
+                $data['KESELON'] = $jakhir['KESELON'];
+                $data['NJAB'] = $jakhir['NJAB'];
+            }
 
-        $pakhir = Pakhir::where('NIP', $data['NIP'])->first();
-        if ($pakhir === null) {
-            $data['NGOLRU'] = null;
-            $data['PANGKAT'] = null;
-        } else {
-            $golruang = GolRuang::where('KGOLRU', $pakhir['KGOLRU'])->first();
-            if ($golruang === null) {
+            $pakhir = Pakhir::where('NIP', $data['NIP'])->first();
+            if ($pakhir === null) {
                 $data['NGOLRU'] = null;
                 $data['PANGKAT'] = null;
             } else {
-                $data['NGOLRU'] = $golruang['NGOLRU'];
-                $data['PANGKAT'] = $golruang['PANGKAT'];
+                $golruang = GolRuang::where('KGOLRU', $pakhir['KGOLRU'])->first();
+                if ($golruang === null) {
+                    $data['NGOLRU'] = null;
+                    $data['PANGKAT'] = null;
+                } else {
+                    $data['NGOLRU'] = $golruang['NGOLRU'];
+                    $data['PANGKAT'] = $golruang['PANGKAT'];
+                }
             }
         }
+
         return response()->json($data);
     }
 

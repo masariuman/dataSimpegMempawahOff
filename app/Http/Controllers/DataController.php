@@ -19,33 +19,56 @@ class DataController extends Controller
     public function index()
     {
         //
+        $index = 0;
         $data = Identpeg::where(DB::raw('LENGTH(NIP)'), '=', '18')->get();
-        foreach ($data as $data) {
-            $jakhir = Jakhir::where('NIP', $data['NIP'])->first();
+        $final = [];
+        foreach ($data as $datas) {
+            $jakhir = Jakhir::where('NIP', $datas['NIP'])->first();
             if ($jakhir === null) {
-                $data['KESELON'] = null;
-                $data['NJAB'] = null;
+                $datas['KESELON'] = null;
+                $datas['NJAB'] = null;
             } else {
-                $data['KESELON'] = $jakhir['KESELON'];
-                $data['NJAB'] = $jakhir['NJAB'];
+                $datas['KESELON'] = $jakhir['KESELON'];
+                $datas['NJAB'] = $jakhir['NJAB'];
             }
 
-            $pakhir = Pakhir::where('NIP', $data['NIP'])->first();
+            $pakhir = Pakhir::where('NIP', $datas['NIP'])->first();
             if ($pakhir === null) {
-                $data['NGOLRU'] = null;
-                $data['PANGKAT'] = null;
+                $datas['NGOLRU'] = null;
+                $datas['PANGKAT'] = null;
             } else {
                 $golruang = GolRuang::where('KGOLRU', $pakhir['KGOLRU'])->first();
                 if ($golruang === null) {
-                    $data['NGOLRU'] = null;
-                    $data['PANGKAT'] = null;
+                    $datas['NGOLRU'] = null;
+                    $datas['PANGKAT'] = null;
                 } else {
-                    $data['NGOLRU'] = $golruang['NGOLRU'];
-                    $data['PANGKAT'] = $golruang['PANGKAT'];
+                    $datas['NGOLRU'] = $golruang['NGOLRU'];
+                    $datas['PANGKAT'] = $golruang['PANGKAT'];
                 }
             }
+
+            $final[$index]['NIP'] = $datas['NIP'];
+            $final[$index]['GLDEPAN'] = $datas['GLDEPAN'];
+            $final[$index]['NAMA'] = $datas['NAMA'];
+            $final[$index]['GLBLK'] = $datas['GLBLK'];
+            $final[$index]['KESELON'] = $datas['KESELON'];
+            $final[$index]['NJAB'] = $datas['NJAB'];
+            $final[$index]['KJKEL'] = $datas['KJKEL'];
+            $final[$index]['KAGAMA'] = $datas['KAGAMA'];
+            $final[$index]['KTLAHIR'] = $datas['KTLAHIR'];
+            $final[$index]['TLAHIR'] = $datas['TLAHIR'];
+            $final[$index]['ALJALAN'] = $datas['ALJALAN'];
+            $final[$index]['ALRT'] = $datas['ALRT'];
+            $final[$index]['ALRW'] = $datas['ALRW'];
+            $final[$index]['NGOLRU'] = $datas['NGOLRU'];
+            $final[$index]['PANGKAT'] = $datas['PANGKAT'];
+            $final[$index]['PROYEKSI_TGL_BUP'] = null;
+            $final[$index]['PROYEKSI_USIA_BUP'] = null;
+            $final[$index]['FILE_BMP'] = null;
+            $final[$index]['FILE_EXISTS'] = null;
+            $index++;
         }
-        return response()->json($data);
+        return response()->json($final);
     }
 
     /**
@@ -105,9 +128,28 @@ class DataController extends Controller
                     $data['PANGKAT'] = $golruang['PANGKAT'];
                 }
             }
+            $final['NIP'] = $data['NIP'];
+            $final['GLDEPAN'] = $data['GLDEPAN'];
+            $final['NAMA'] = $data['NAMA'];
+            $final['GLBLK'] = $data['GLBLK'];
+            $final['KESELON'] = $data['KESELON'];
+            $final['NJAB'] = $data['NJAB'];
+            $final['KJKEL'] = $data['KJKEL'];
+            $final['KAGAMA'] = $data['KAGAMA'];
+            $final['KTLAHIR'] = $data['KTLAHIR'];
+            $final['TLAHIR'] = $data['TLAHIR'];
+            $final['ALJALAN'] = $data['ALJALAN'];
+            $final['ALRT'] = $data['ALRT'];
+            $final['ALRW'] = $data['ALRW'];
+            $final['NGOLRU'] = $data['NGOLRU'];
+            $final['PANGKAT'] = $data['PANGKAT'];
+            $final['PROYEKSI_TGL_BUP'] = null;
+            $final['PROYEKSI_USIA_BUP'] = null;
+            $final['FILE_BMP'] = null;
+            $final['FILE_EXISTS'] = null;
         }
 
-        return response()->json($data);
+        return response()->json($final);
     }
 
     /**

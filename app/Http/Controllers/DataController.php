@@ -20,7 +20,337 @@ class DataController extends Controller
     {
         //
         $index = 0;
+        $data = Identpeg::where(DB::raw('LENGTH(NIP)'), '=', '18')->whereIn('KSTATUS', [1, 2, 8])->get();
+        $final = [];
+        foreach ($data as $datas) {
+            $jakhir = Jakhir::where('NIP', $datas['NIP'])->first();
+            if ($jakhir === null) {
+                $datas['KESELON'] = null;
+                $datas['NJAB'] = null;
+            } else {
+                $datas['KESELON'] = $jakhir['KESELON'];
+                $datas['NJAB'] = $jakhir['NJAB'];
+            }
+
+            $pakhir = Pakhir::where('NIP', $datas['NIP'])->first();
+            if ($pakhir === null) {
+                $datas['NGOLRU'] = null;
+                $datas['PANGKAT'] = null;
+            } else {
+                $golruang = GolRuang::where('KGOLRU', $pakhir['KGOLRU'])->first();
+                if ($golruang === null) {
+                    $datas['NGOLRU'] = null;
+                    $datas['PANGKAT'] = null;
+                } else {
+                    $datas['NGOLRU'] = $golruang['NGOLRU'];
+                    $datas['PANGKAT'] = $golruang['PANGKAT'];
+                }
+            }
+
+            $final[$index]['NIP'] = $datas['NIP'];
+            $final[$index]['GLDEPAN'] = $datas['GLDEPAN'];
+            $final[$index]['NAMA'] = $datas['NAMA'];
+            $final[$index]['GLBLK'] = $datas['GLBLK'];
+            $final[$index]['KESELON'] = $datas['KESELON'];
+            $final[$index]['NJAB'] = $datas['NJAB'];
+            $final[$index]['KJKEL'] = $datas['KJKEL'];
+            $final[$index]['KAGAMA'] = $datas['KAGAMA'];
+            $final[$index]['KTLAHIR'] = $datas['KTLAHIR'];
+            $final[$index]['TLAHIR'] = $datas['TLAHIR'];
+            $final[$index]['ALJALAN'] = $datas['ALJALAN'];
+            $final[$index]['ALRT'] = $datas['ALRT'];
+            $final[$index]['ALRW'] = $datas['ALRW'];
+            $final[$index]['NGOLRU'] = $datas['NGOLRU'];
+            $final[$index]['PANGKAT'] = $datas['PANGKAT'];
+            $final[$index]['PROYEKSI_TGL_BUP'] = null;
+            $final[$index]['PROYEKSI_USIA_BUP'] = null;
+            $final[$index]['FILE_BMP'] = null;
+            $final[$index]['FILE_EXISTS'] = null;
+            $index++;
+        }
+        return response()->json($final);
+    }
+
+    public function all()
+    {
+        //
+        $index = 0;
         $data = Identpeg::where(DB::raw('LENGTH(NIP)'), '=', '18')->get();
+        $final = [];
+        foreach ($data as $datas) {
+            $jakhir = Jakhir::where('NIP', $datas['NIP'])->first();
+            if ($jakhir === null) {
+                $datas['KESELON'] = null;
+                $datas['NJAB'] = null;
+            } else {
+                $datas['KESELON'] = $jakhir['KESELON'];
+                $datas['NJAB'] = $jakhir['NJAB'];
+            }
+
+            $pakhir = Pakhir::where('NIP', $datas['NIP'])->first();
+            if ($pakhir === null) {
+                $datas['NGOLRU'] = null;
+                $datas['PANGKAT'] = null;
+            } else {
+                $golruang = GolRuang::where('KGOLRU', $pakhir['KGOLRU'])->first();
+                if ($golruang === null) {
+                    $datas['NGOLRU'] = null;
+                    $datas['PANGKAT'] = null;
+                } else {
+                    $datas['NGOLRU'] = $golruang['NGOLRU'];
+                    $datas['PANGKAT'] = $golruang['PANGKAT'];
+                }
+            }
+
+            $final[$index]['NIP'] = $datas['NIP'];
+            $final[$index]['GLDEPAN'] = $datas['GLDEPAN'];
+            $final[$index]['NAMA'] = $datas['NAMA'];
+            $final[$index]['GLBLK'] = $datas['GLBLK'];
+            $final[$index]['KESELON'] = $datas['KESELON'];
+            $final[$index]['NJAB'] = $datas['NJAB'];
+            $final[$index]['KJKEL'] = $datas['KJKEL'];
+            $final[$index]['KAGAMA'] = $datas['KAGAMA'];
+            $final[$index]['KTLAHIR'] = $datas['KTLAHIR'];
+            $final[$index]['TLAHIR'] = $datas['TLAHIR'];
+            $final[$index]['ALJALAN'] = $datas['ALJALAN'];
+            $final[$index]['ALRT'] = $datas['ALRT'];
+            $final[$index]['ALRW'] = $datas['ALRW'];
+            $final[$index]['NGOLRU'] = $datas['NGOLRU'];
+            $final[$index]['PANGKAT'] = $datas['PANGKAT'];
+            $final[$index]['PROYEKSI_TGL_BUP'] = null;
+            $final[$index]['PROYEKSI_USIA_BUP'] = null;
+            $final[$index]['FILE_BMP'] = null;
+            $final[$index]['FILE_EXISTS'] = null;
+            $index++;
+        }
+        return response()->json($final);
+    }
+
+    public function pns()
+    {
+        //
+        $index = 0;
+        $data = Identpeg::where(DB::raw('LENGTH(NIP)'), '=', '18')->where('KSTATUS', 2)->get();
+        $final = [];
+        foreach ($data as $datas) {
+            $jakhir = Jakhir::where('NIP', $datas['NIP'])->first();
+            if ($jakhir === null) {
+                $datas['KESELON'] = null;
+                $datas['NJAB'] = null;
+            } else {
+                $datas['KESELON'] = $jakhir['KESELON'];
+                $datas['NJAB'] = $jakhir['NJAB'];
+            }
+
+            $pakhir = Pakhir::where('NIP', $datas['NIP'])->first();
+            if ($pakhir === null) {
+                $datas['NGOLRU'] = null;
+                $datas['PANGKAT'] = null;
+            } else {
+                $golruang = GolRuang::where('KGOLRU', $pakhir['KGOLRU'])->first();
+                if ($golruang === null) {
+                    $datas['NGOLRU'] = null;
+                    $datas['PANGKAT'] = null;
+                } else {
+                    $datas['NGOLRU'] = $golruang['NGOLRU'];
+                    $datas['PANGKAT'] = $golruang['PANGKAT'];
+                }
+            }
+
+            $final[$index]['NIP'] = $datas['NIP'];
+            $final[$index]['GLDEPAN'] = $datas['GLDEPAN'];
+            $final[$index]['NAMA'] = $datas['NAMA'];
+            $final[$index]['GLBLK'] = $datas['GLBLK'];
+            $final[$index]['KESELON'] = $datas['KESELON'];
+            $final[$index]['NJAB'] = $datas['NJAB'];
+            $final[$index]['KJKEL'] = $datas['KJKEL'];
+            $final[$index]['KAGAMA'] = $datas['KAGAMA'];
+            $final[$index]['KTLAHIR'] = $datas['KTLAHIR'];
+            $final[$index]['TLAHIR'] = $datas['TLAHIR'];
+            $final[$index]['ALJALAN'] = $datas['ALJALAN'];
+            $final[$index]['ALRT'] = $datas['ALRT'];
+            $final[$index]['ALRW'] = $datas['ALRW'];
+            $final[$index]['NGOLRU'] = $datas['NGOLRU'];
+            $final[$index]['PANGKAT'] = $datas['PANGKAT'];
+            $final[$index]['PROYEKSI_TGL_BUP'] = null;
+            $final[$index]['PROYEKSI_USIA_BUP'] = null;
+            $final[$index]['FILE_BMP'] = null;
+            $final[$index]['FILE_EXISTS'] = null;
+            $index++;
+        }
+        return response()->json($final);
+    }
+
+    public function cpns()
+    {
+        //
+        $index = 0;
+        $data = Identpeg::where(DB::raw('LENGTH(NIP)'), '=', '18')->where('KSTATUS', 1)->get();
+        $final = [];
+        foreach ($data as $datas) {
+            $jakhir = Jakhir::where('NIP', $datas['NIP'])->first();
+            if ($jakhir === null) {
+                $datas['KESELON'] = null;
+                $datas['NJAB'] = null;
+            } else {
+                $datas['KESELON'] = $jakhir['KESELON'];
+                $datas['NJAB'] = $jakhir['NJAB'];
+            }
+
+            $pakhir = Pakhir::where('NIP', $datas['NIP'])->first();
+            if ($pakhir === null) {
+                $datas['NGOLRU'] = null;
+                $datas['PANGKAT'] = null;
+            } else {
+                $golruang = GolRuang::where('KGOLRU', $pakhir['KGOLRU'])->first();
+                if ($golruang === null) {
+                    $datas['NGOLRU'] = null;
+                    $datas['PANGKAT'] = null;
+                } else {
+                    $datas['NGOLRU'] = $golruang['NGOLRU'];
+                    $datas['PANGKAT'] = $golruang['PANGKAT'];
+                }
+            }
+
+            $final[$index]['NIP'] = $datas['NIP'];
+            $final[$index]['GLDEPAN'] = $datas['GLDEPAN'];
+            $final[$index]['NAMA'] = $datas['NAMA'];
+            $final[$index]['GLBLK'] = $datas['GLBLK'];
+            $final[$index]['KESELON'] = $datas['KESELON'];
+            $final[$index]['NJAB'] = $datas['NJAB'];
+            $final[$index]['KJKEL'] = $datas['KJKEL'];
+            $final[$index]['KAGAMA'] = $datas['KAGAMA'];
+            $final[$index]['KTLAHIR'] = $datas['KTLAHIR'];
+            $final[$index]['TLAHIR'] = $datas['TLAHIR'];
+            $final[$index]['ALJALAN'] = $datas['ALJALAN'];
+            $final[$index]['ALRT'] = $datas['ALRT'];
+            $final[$index]['ALRW'] = $datas['ALRW'];
+            $final[$index]['NGOLRU'] = $datas['NGOLRU'];
+            $final[$index]['PANGKAT'] = $datas['PANGKAT'];
+            $final[$index]['PROYEKSI_TGL_BUP'] = null;
+            $final[$index]['PROYEKSI_USIA_BUP'] = null;
+            $final[$index]['FILE_BMP'] = null;
+            $final[$index]['FILE_EXISTS'] = null;
+            $index++;
+        }
+        return response()->json($final);
+    }
+
+    public function pppk()
+    {
+        //
+        $index = 0;
+        $data = Identpeg::where(DB::raw('LENGTH(NIP)'), '=', '18')->where('KSTATUS', 8)->get();
+        $final = [];
+        foreach ($data as $datas) {
+            $jakhir = Jakhir::where('NIP', $datas['NIP'])->first();
+            if ($jakhir === null) {
+                $datas['KESELON'] = null;
+                $datas['NJAB'] = null;
+            } else {
+                $datas['KESELON'] = $jakhir['KESELON'];
+                $datas['NJAB'] = $jakhir['NJAB'];
+            }
+
+            $pakhir = Pakhir::where('NIP', $datas['NIP'])->first();
+            if ($pakhir === null) {
+                $datas['NGOLRU'] = null;
+                $datas['PANGKAT'] = null;
+            } else {
+                $golruang = GolRuang::where('KGOLRU', $pakhir['KGOLRU'])->first();
+                if ($golruang === null) {
+                    $datas['NGOLRU'] = null;
+                    $datas['PANGKAT'] = null;
+                } else {
+                    $datas['NGOLRU'] = $golruang['NGOLRU'];
+                    $datas['PANGKAT'] = $golruang['PANGKAT'];
+                }
+            }
+
+            $final[$index]['NIP'] = $datas['NIP'];
+            $final[$index]['GLDEPAN'] = $datas['GLDEPAN'];
+            $final[$index]['NAMA'] = $datas['NAMA'];
+            $final[$index]['GLBLK'] = $datas['GLBLK'];
+            $final[$index]['KESELON'] = $datas['KESELON'];
+            $final[$index]['NJAB'] = $datas['NJAB'];
+            $final[$index]['KJKEL'] = $datas['KJKEL'];
+            $final[$index]['KAGAMA'] = $datas['KAGAMA'];
+            $final[$index]['KTLAHIR'] = $datas['KTLAHIR'];
+            $final[$index]['TLAHIR'] = $datas['TLAHIR'];
+            $final[$index]['ALJALAN'] = $datas['ALJALAN'];
+            $final[$index]['ALRT'] = $datas['ALRT'];
+            $final[$index]['ALRW'] = $datas['ALRW'];
+            $final[$index]['NGOLRU'] = $datas['NGOLRU'];
+            $final[$index]['PANGKAT'] = $datas['PANGKAT'];
+            $final[$index]['PROYEKSI_TGL_BUP'] = null;
+            $final[$index]['PROYEKSI_USIA_BUP'] = null;
+            $final[$index]['FILE_BMP'] = null;
+            $final[$index]['FILE_EXISTS'] = null;
+            $index++;
+        }
+        return response()->json($final);
+    }
+
+    public function pensiun()
+    {
+        //
+        $index = 0;
+        $data = Identpeg::where(DB::raw('LENGTH(NIP)'), '=', '18')->where('KSTATUS', 3)->get();
+        $final = [];
+        foreach ($data as $datas) {
+            $jakhir = Jakhir::where('NIP', $datas['NIP'])->first();
+            if ($jakhir === null) {
+                $datas['KESELON'] = null;
+                $datas['NJAB'] = null;
+            } else {
+                $datas['KESELON'] = $jakhir['KESELON'];
+                $datas['NJAB'] = $jakhir['NJAB'];
+            }
+
+            $pakhir = Pakhir::where('NIP', $datas['NIP'])->first();
+            if ($pakhir === null) {
+                $datas['NGOLRU'] = null;
+                $datas['PANGKAT'] = null;
+            } else {
+                $golruang = GolRuang::where('KGOLRU', $pakhir['KGOLRU'])->first();
+                if ($golruang === null) {
+                    $datas['NGOLRU'] = null;
+                    $datas['PANGKAT'] = null;
+                } else {
+                    $datas['NGOLRU'] = $golruang['NGOLRU'];
+                    $datas['PANGKAT'] = $golruang['PANGKAT'];
+                }
+            }
+
+            $final[$index]['NIP'] = $datas['NIP'];
+            $final[$index]['GLDEPAN'] = $datas['GLDEPAN'];
+            $final[$index]['NAMA'] = $datas['NAMA'];
+            $final[$index]['GLBLK'] = $datas['GLBLK'];
+            $final[$index]['KESELON'] = $datas['KESELON'];
+            $final[$index]['NJAB'] = $datas['NJAB'];
+            $final[$index]['KJKEL'] = $datas['KJKEL'];
+            $final[$index]['KAGAMA'] = $datas['KAGAMA'];
+            $final[$index]['KTLAHIR'] = $datas['KTLAHIR'];
+            $final[$index]['TLAHIR'] = $datas['TLAHIR'];
+            $final[$index]['ALJALAN'] = $datas['ALJALAN'];
+            $final[$index]['ALRT'] = $datas['ALRT'];
+            $final[$index]['ALRW'] = $datas['ALRW'];
+            $final[$index]['NGOLRU'] = $datas['NGOLRU'];
+            $final[$index]['PANGKAT'] = $datas['PANGKAT'];
+            $final[$index]['PROYEKSI_TGL_BUP'] = null;
+            $final[$index]['PROYEKSI_USIA_BUP'] = null;
+            $final[$index]['FILE_BMP'] = null;
+            $final[$index]['FILE_EXISTS'] = null;
+            $index++;
+        }
+        return response()->json($final);
+    }
+
+    public function pindah()
+    {
+        //
+        $index = 0;
+        $data = Identpeg::where(DB::raw('LENGTH(NIP)'), '=', '18')->where('KSTATUS', 5)->get();
         $final = [];
         foreach ($data as $datas) {
             $jakhir = Jakhir::where('NIP', $datas['NIP'])->first();

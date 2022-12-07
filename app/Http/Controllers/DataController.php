@@ -231,6 +231,7 @@ class DataController extends Controller
                     }
                 } else {
                     $datas['RINCUNIT1'] = null;
+                    $fileBMP = null;
                 }
             }
             dd($datas['RINCUNIT1']);

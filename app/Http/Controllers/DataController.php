@@ -234,7 +234,6 @@ class DataController extends Controller
                     $fileBMP = null;
                 }
             }
-            dd($datas['RINCUNIT1']);
 
             $pakhir = Pakhir::where('NIP', $datas['NIP'])->first();
             if ($pakhir === null) {

@@ -225,7 +225,7 @@ class DataController extends Controller
                 if ($jakhir['RINCUNIT1'] != null) {
                     $splitUnorCode = str_split($jakhir['RINCUNIT1'], 4);
                     if ($splitUnorCode[0] === "2011") {
-                        $fileBMP = "http://103.148.49.42/upload/foto/140012.png";
+                        $fileBMP = "https://epresensi.mempawahkab.go.id/uplad/foto/140012.png";
                     } else {
                         $fileBMP = null;
                     }
